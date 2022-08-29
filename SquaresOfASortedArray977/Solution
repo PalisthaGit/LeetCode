@@ -1,0 +1,44 @@
+// Brute Force Approach
+
+We can compute the square of the array.
+
+Then sort it.
+
+nums = [-4,-1,0,3,10]
+Square = [16, 1, 0, 9, 100]
+Sorted = [0,1,9,16,100]
+Time complexity: nlogN
+
+
+Let’s solve it in less time complexity.
+
+// Optimized Approach
+
+input = [-4,-1,0,3,10]
+
+Thing to keep in mind is that the array is sorted. That also means we might have negative values at the beginning whose square can be greater than values at the right.
+
+We will first create an output array of size input.
+
+
+We will fill the array from backwards.
+
+Now, will compare positive values on the left and right element of input array.
+
+
+If the right is greater than left (10 > 4).That means the square of the right(100) will have the greatest value.
+
+So, just add the square of right to the last index of the output array.
+
+
+Now, as right is already checked, we will move right one step backwards. That is the index of right — 1.
+
+
+Now, we will move the index of the result to index — 1.
+
+
+Now, we will check if the right is greater than the left.
+
+
+Now, as the positive value of right (3) is not greater than the positive value of left(4), we will add the square of left to the index of the output array.
+We will continue till we get an array of the squares of each number sorted in non-decreasing order in the result array.
