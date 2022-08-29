@@ -1,0 +1,185 @@
+Brute Force Approach
+The Brute Force Solution to this problem is straightforward. 
+
+We will first save the value of the last element. Then shift the elements one step forward. Finally, add the last element to the first index.
+
+We will do it till k times.
+Code:
+
+	public void rotate(int[] nums, int k) {
+
+		// run for k times
+		for (int i = 1; i <= k; i++) {
+			// store the last element
+			// to assign it to first index
+			int temp = nums[nums.length - 1];
+
+			// shift the elements one step forward
+			// except for first element
+			for (int j = nums.length - 1; j > 0; j--) {
+
+				nums[j] = nums[j - 1];
+			}
+			// assign temp as first value
+			nums[0] = temp;
+		}
+
+	}
+
+The time complexity of the above code is O(n^2). We can solve this problem is less time complexity.
+
+Optimized Approach
+Let’s consider the following array.
+
+1,2,3,4,5,6,7
+
+K = 3
+
+Output: 5,6,7,1,2,3,4
+
+To bring the original array to our desired array:
+
+Reverse the array.
+
+7, 6, 5, 4, 3, 2, 1
+
+Reverse the first k (3) elements. 7, 6, 5
+
+5, 6, 7, 4, 3, 2, 1
+
+Reverse the elements after the k elements. 4, 3, 2, 1
+
+5, 6, 7, 1, 2, 3, 4
+
+Hence, we get our desired array.
+Code:
+
+	public void rotate(int[] nums, int k) {
+
+		int left = 0;
+		int right = nums.length - 1;
+
+		// reverse the array
+		reverse(left, right, nums);
+
+		// reverse the array till k - 1
+		reverse(left, k - 1, nums);
+
+		// reverse the array from k-1
+		reverse(k, right, nums);
+
+	}
+
+	public void reverse(int left, int right, int nums[]) {
+
+		// reverse array
+		while (left < right) {
+			int temp = nums[left];
+			nums[left] = nums[right];
+			nums[right] = temp;
+			right--;
+			left++;
+
+		}
+	}
+
+
+This code works well with time complexity O(n). However, let’s think about the edge case. 
+
+If the value of k becomes greater than the length of the array, we get the ArrayIndexOutOfBoundsException error. 
+
+Let’s take an example of a smaller array, to understand it better.
+
+Input: nums = [1,2,3,], k = 5
+Output: [1,2,3]
+Explanation:
+rotate 1 steps to the right: [3,1,2]
+rotate 2 steps to the right: [2,3,1]
+rotate 3 steps to the right: [1,2,3] same as original array
+rotate 4 steps to the right: [3,1,2] same as rotating 1 step
+rotate 5 steps to the right: [2,3,1] same as rotating 2 step
+
+Here,
+
+// reverse the array till k - 1
+reverse(left, k - 1, nums);
+
+Throws ArrayIndexOutOfBoundsException error
+
+This is because when the value of k is 5, k - 1 becomes 4. There is no index 4 in the array.
+
+To solve this we can  update the value of k as:
+
+k = k % nums.length
+
+So, how does this solve the problem?
+
+When k < length of the array
+
+If the value of k is less than nums.length, then k % nums.length will result in k.
+
+K = 2
+2 % 3 = 2
+
+When k > length of the array
+
+K = 5
+Which is the same as rotating 2 steps
+
+So, 5 % 3 = 2
+
+When k == length of the array
+
+K = 3
+
+So, 3 % 3 = 0
+
+When k is equal to the length of the array, the rotated array and original array are the same.So, we can avoid the rotation. 
+Code:
+
+	import java.util.Arrays;
+
+public class RotateArrayOptimized {
+
+	public void rotate(int[] nums, int k) {
+
+		// makes sure that value of k never exceeds nums.length
+		k = k % nums.length;
+		int left = 0;
+		int right = nums.length - 1;
+
+		// reverse the array
+		reverse(left, right, nums);
+
+		// reverse the array till k - 1
+		reverse(left, k - 1, nums);
+
+		// reverse the array from k-1
+		reverse(k, right, nums);
+
+	}
+
+	public void reverse(int left, int right, int nums[]) {
+
+		// reverse array
+		while (left < right) {
+			int temp = nums[left];
+			nums[left] = nums[right];
+			nums[right] = temp;
+			right--;
+			left++;
+
+		}
+	}
+
+	public static void main(String[] args) {
+
+		RotateArrayOptimized obj = new RotateArrayOptimized();
+		int arr[] = { 1, 2, 3 };
+		int k = 5;
+		obj.rotate(arr, k);
+		System.out.println(Arrays.toString(arr));
+	}
+
+}
+
