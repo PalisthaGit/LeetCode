@@ -42,3 +42,6 @@ Now, we will check if the right is greater than the left.
 
 Now, as the positive value of right (3) is not greater than the positive value of left(4), we will add the square of left to the index of the output array.
 We will continue till we get an array of the squares of each number sorted in non-decreasing order in the result array.
+
+// Explanation with figure
+https://palisthaa.medium.com/solution-with-explanation-977-squares-of-a-sorted-array-f632f09bbea3
